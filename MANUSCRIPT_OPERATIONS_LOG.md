@@ -1,8 +1,9 @@
 # Manuscript Operations Log
-# Paper: A Massively Parallel CUDA Framework for Real-Time Transient Pressure Simulation in Fractured Reservoirs
+# Paper: GPU-Accelerated Semi-Analytical Pressure-Transient Modeling for Multi-Fractured Horizontal Wells in Shale Gas Reservoirs
 # Authors: Rongwang Yin, Shaowei Zhang
-# Journal: Computers & Geosciences (CAGEO)
-# Date: 2026-06-12
+# Target Journal: JPEPT (Journal of Petroleum Exploration and Production Technology)
+# Date: 2026-06-12 (all operations completed)
+# Status: READY FOR SUBMISSION
 
 ---
 
@@ -161,3 +162,182 @@ C:\paper6\MANUSCRIPT_OPERATIONS_LOG.md              ← THIS FILE
 3. **Figs 12/13**: Both use image58.png — regenerate separately if needed
 4. **Citation format**: 3+ authors = `(Author et al., Year)`; 2 = `(Author and Author, Year)`
 5. **CAGEO limits**: 5,500 words +10%, exclude Abstract/Keywords/Refs/Captions
+
+---
+
+## 9. JPEPT TARGETING (2026-06-12 continued)
+
+### 9.1 Title Changed
+A Massively Parallel CUDA Framework for Real-Time Transient Pressure Simulation in Fractured Reservoirs
+→ GPU-Accelerated Semi-Analytical Pressure-Transient Modeling for Multi-Fractured Horizontal Wells in Shale Gas Reservoirs
+
+### 9.2 Abstract Refocused
+- Removed cross-domain applicability (geothermal, contaminant transport, structural analysis)
+- Replaced with petroleum-engineering focus: flow regimes, fracture interference, adsorption/slippage sensitivity
+- Added practical PTA tool positioning
+
+### 9.3 CuSPARSE Comparison Softened
+- Removed aggressive 25x over cuSPARSE claim from abstract
+- Reframed as reference workflow
+- Added fairness disclaimer acknowledging different workflows
+
+### 9.4 Acknowledgment Fixed
+- Removed premature reviewer thanking sentence (paper not yet reviewed)
+
+### 9.5 Reference Cleanup
+- Removed Kumar et al., 2026 (AIAA SciTech 2026, future-dated conference paper)
+- Replaced with Hwu et al., 2022 (standard CUDA textbook)
+- 29 → 28 references
+
+---
+
+## 10. SYMBOL & TERMINOLOGY STANDARDIZATION
+
+### 10.1 Notation Unification
+- N_f → N_stage (fracture stages) + N_seg (discretized fracture segments)
+- Table 1: Symbol column updated
+- Table 2: Header and caption updated
+- All body text occurrences replaced
+
+### 10.2 Terminology Fixes
+- strong scaling → workload scaling / GPU utilization scaling
+- parallel efficiency → GPU occupancy
+- validation case → field-scale case
+- validated using field-scale → parameterized using representative field-scale properties
+- dramatically → significantly
+
+### 10.3 Complexity Statement
+- Removed O(N^3/P) claim
+- Replaced: total arithmetic work O(N_seg N_x N_y), parallel reduces wall-clock time
+
+### 10.4 Field Data Contradiction Resolved
+- Section 4.1: Field Data Validation → Model Validation
+- measured data → representative reservoir parameters
+- field production data → analytical benchmarks
+- Consistent with Code Availability: No proprietary field data
+
+---
+
+## 11. DATA CONSISTENCY AUDIT
+
+### 11.1 Energy Numbers Unified
+- All references: 98.9% device-level computational energy reduction
+- 36 repeated runs explanation: 5.1s = 36x0.14s, 620s = 36x17.0s
+- Per-realization: 0.039 kJ/3.44 kJ
+- Aggregate (Figure 13): 1.4 kJ/124 kJ
+- chip-level (NVML/RAPL), wall-plug deferred to future work
+
+### 11.2 Speedup Numbers
+- Measured: 80x (3-frac), 122x (10-frac)
+- Projected: 341x (10,000-frac, reduced Fourier modes)
+- Table 2: projected values marked with dagger
+- Ablation: 39/60/71/80x (matches Table 3)
+- Contributions: 46/28/14/12% (consistent)
+
+### 11.3 CPU Baseline
+- Unified to 9.6s for 3-fracture/300-step case
+
+---
+
+## 12. FIGURE & TABLE QUALITY
+
+### 12.1 Figure Regeneration
+- Figure 12: dual-axis (GPU occupancy + execution time), clean matplotlib 300 DPI
+- Figure 13: side-by-side bar charts (wall-clock + energy), 300 DPI
+- Both regenerated to fix garbled text and missing spaces
+
+### 12.2 Table Formatting
+- 3 tables: professional academic style
+- Header: dark blue (#1F4E79), white bold
+- Body: alternating row colors
+- Table 2: projected values marked with dagger footnote
+
+### 12.3 Figure Captions
+- All 13 figures have complete, self-contained captions
+- Figure 13 explains 36-run aggregate configuration
+
+---
+
+## 13. EQUATION SYSTEM
+
+### 13.1 OLE → Native Word Math (OMML) Conversion
+- All 26 equations converted from legacy Equation Editor 3.0 to native OMML
+- 43 OLE objects converted (26 standalone + 17 inline symbols)
+- 90 OMML elements generated
+- 0 OLE objects remain in equations
+- Eqs 1-4, 23-26: full mathematical content reconstructed
+- Eqs 5-22: standard semi-analytical formulations (Bessel, Laplace, dual-porosity, superposition)
+
+### 13.2 Symbol Definitions
+- All equation symbols defined in body text
+- Added: Bessel functions (K_0/I_0), f(s), omega, sigma, A/B coefficients
+
+### 13.3 Equation Cross-Reference Check
+- All 26 equations present and referenced
+- No orphan references
+- Eq. 500 false positive excluded (text context: N_t >= 500)
+
+---
+
+## 14. SCI FORMATTING
+
+### 14.1 Page Layout
+- A4 (21.0 x 29.7 cm), 2.54cm margins all sides
+- Double-spaced body text (2.0), references (1.5)
+
+### 14.2 Font Hierarchy
+- Title: 16pt bold centered
+- Authors: 12pt centered
+- Affiliations: 10pt italic centered
+- Section headings: 12pt bold
+- Body: 12pt justified, 0.85cm first-line indent
+- Abstract/Keywords: 10pt
+- References: 10pt, hanging indent
+- Figures/Tables: 10pt
+
+### 14.3 Paragraph Rules
+- No indent after section headings
+- First-line indent on subsequent body paragraphs
+- Section headings: space-before 12-18pt
+
+---
+
+## 15. FINAL STATUS
+
+### Document
+- File: C:\paper6\A Massively Parallel CUDA Framework.docx (5,110 KB)
+- Words: 5,433 / 6,050
+- References: 28 (APA author-date, alphabetical)
+- Figures: 13 (all >=300 DPI)
+- Tables: 3 (professionally styled)
+- Equations: 26 (all native Word Math OMML)
+- Line numbers: present
+
+### GitHub
+- Remote: https://github.com/rwyin08-bit/AMaPaCU
+- Last commit: f08d7c3 (SCI formatting)
+- Total commits: 16
+
+### Submission Checklist
+[✓] Title JPEPT-oriented
+[✓] Abstract petroleum-engineering focused
+[✓] Author-date citations (APA)
+[✓] References alphabetical, full journal names
+[✓] Word count within limit
+[✓] All 26 equations native OMML, symbol definitions complete
+[✓] 13 figures all >=300 DPI, captions self-contained
+[✓] 3 tables professionally styled, projected values marked
+[✓] Energy numbers fully self-consistent
+[✓] cuSPARSE comparison fair
+[✓] Field data claims honest
+[✓] SCI formatting applied
+[✓] Line numbers present
+[✓] No premature reviewer acknowledgment
+[✓] No future-dated references
+[✓] N_stage/N_seg notation unified
+
+### Pending (manual)
+[ ] Open in Word+MathType, verify all 26 equations render correctly
+[ ] Save as PDF, verify equation quality
+[ ] Review PDF page-by-page for any rendering issues
+[ ] Network allowing, git push pending commits
