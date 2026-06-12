@@ -1,0 +1,46 @@
+# Microsoft Word temporary files
+~$*.docx
+~$*.doc
+*.tmp
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Build artifacts
+*.o
+*.obj
+*.exe
+*.out
+build/
+dist/
+*.egg-info/
+
+# CUDA
+*.ptx
+*.cubin
+*.fatbin
+
+# Output / results
+output/
+results/
+*.json
+*.csv
+*.h5
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# LaTeX auxiliary
+*.aux
+*.log
+*.out
+*.toc

@@ -1,0 +1,23 @@
+﻿cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Yin
+    given-names: Rongwang
+    affiliation: Hefei University
+  - family-names: Zhang
+    given-names: Shaowei
+    affiliation: AnHui WenDa University of Information Engineering
+title: "Influence-Coefficient Assembly: CPU and GPU Implementations for Transient Pressure Simulation"
+version: "1.0.0"
+date-released: 2026-06-05
+repository-code: "https://github.com/[username]/influence-coefficient-gpu"
+license: MIT
+keywords:
+  - "computational geoscience"
+  - "GPU acceleration"
+  - "semi-analytical model"
+  - "Green's function"
+  - "CUDA"
+  - "OpenMP"
+  - "transient pressure simulation"
+  - "fractured reservoirs"

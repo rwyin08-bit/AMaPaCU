@@ -1,0 +1,107 @@
+# Benchmark Parameter Sweep Configuration
+# Covers sensitivity analysis, scaling studies, and ablation experiments
+# described in Sections 4.1-4.6 of Yin & Zhang (2026).
+
+# ---------------------------------------------------------------------------
+# Problem size sweep (Section 4.4: Strong Scaling)
+# ---------------------------------------------------------------------------
+scaling:
+  N_fractures_list: [3, 10, 100, 1000, 10000]
+  N_timesteps_list: [100, 300, 500, 1000, 3000]
+  N_x: 50
+  N_y: 50
+
+# ---------------------------------------------------------------------------
+# Fracture density sweep (Section 4.3: Fracture Interference)
+# ---------------------------------------------------------------------------
+fracture_density:
+  N_fractures_list: [1, 3, 5, 10, 30]
+  fixed_N_t: 300
+  spacing_range: [20.0, 200.0]  # min, max spacing (m)
+
+# ---------------------------------------------------------------------------
+# Parametric sensitivity (Section 4.2)
+# ---------------------------------------------------------------------------
+sensitivity:
+  perturbation: 0.20   # +/- 20% perturbation
+  parameters:
+    - fracture_half_length_m
+    - fracture_conductivity_md_m
+    - fracture_spacing_m
+    - matrix_permeability_md
+    - skin_factor
+    - adsorption_coefficient      # Klinkenberg parameter
+    - gas_slippage_coefficient
+
+# ---------------------------------------------------------------------------
+# Ablation study configuration (Section 4.6)
+# ---------------------------------------------------------------------------
+ablation:
+  N_f: 3
+  N_t: 300
+  stages:
+    0:
+      name: "Naive CUDA baseline"
+      separable_kernel: false
+      shared_memory: false
+      read_only_cache: false
+      warp_centric: false
+    1:
+      name: "+ Separable-kernel exploit"
+      separable_kernel: true
+      shared_memory: false
+      read_only_cache: false
+      warp_centric: false
+    2:
+      name: "+ Shared-memory tiling"
+      separable_kernel: true
+      shared_memory: true
+      read_only_cache: false
+      warp_centric: false
+    3:
+      name: "+ Read-only cache"
+      separable_kernel: true
+      shared_memory: true
+      read_only_cache: true
+      warp_centric: false
+    4:
+      name: "+ Warp-centric execution (full)"
+      separable_kernel: true
+      shared_memory: true
+      read_only_cache: true
+      warp_centric: true
+
+# ---------------------------------------------------------------------------
+# Field validation (Section 4.1)
+# ---------------------------------------------------------------------------
+field_validation:
+  well_name: "Western China Shale Gas Well"
+  data_file: "../data/field_bhp_data.csv"
+  t_D_range: [1.0e-3, 1.0e4]
+  N_t: 300
+
+# ---------------------------------------------------------------------------
+# Energy measurement (Section 4.5)
+# ---------------------------------------------------------------------------
+energy:
+  N_f: 10
+  N_t: 1000
+  gpu_tdp_watt: 250.0        # NVIDIA A100 TDP
+  cpu_tdp_watt: 205.0        # Intel Xeon Gold 6248R TDP
+  measurement_tool_gpu: "NVML"
+  measurement_tool_cpu: "RAPL"
+
+# ---------------------------------------------------------------------------
+# GPU comparison (Section 3.3)
+# ---------------------------------------------------------------------------
+gpu_comparison:
+  baseline_libraries:
+    - name: "cuSPARSE"
+      version: "11.4"
+    - name: "cuBLAS"
+      version: "11.4"
+  metrics:
+    - wall_clock_time
+    - speedup_vs_cpu
+    - speedup_vs_cusparse
+    - relative_error

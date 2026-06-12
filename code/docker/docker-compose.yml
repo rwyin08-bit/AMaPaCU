@@ -1,0 +1,97 @@
+# Docker Compose Configuration
+# Multi-GPU deployment for large-scale benchmarks (N_f > 1000)
+#
+# Usage:
+#   docker-compose up cuda-pressure-sim        # Single GPU
+#   docker-compose up cuda-pressure-multi      # Multi-GPU (4x A100)
+#
+# Reference: Yin & Zhang (2026), Section 4.4
+
+version: "3.8"
+
+services:
+  # -----------------------------------------------------------------------
+  # Single-GPU execution
+  # -----------------------------------------------------------------------
+  cuda-pressure-sim:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: cuda-pressure-sim:latest
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - CUDA_VISIBLE_DEVICES=0
+    volumes:
+      - ../results:/results
+      - ../config:/app/config:ro
+      - ../data:/app/data:ro
+    command: >
+      python3 scripts/run_benchmark.py
+      --config config/base_case.yaml
+      --output /results
+
+  # -----------------------------------------------------------------------
+  # Multi-GPU execution (4 GPUs, for large N_f scaling)
+  # -----------------------------------------------------------------------
+  cuda-pressure-multi:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: cuda-pressure-sim:latest
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - CUDA_VISIBLE_DEVICES=0,1,2,3
+    volumes:
+      - ../results:/results
+      - ../config:/app/config:ro
+      - ../data:/app/data:ro
+    command: >
+      python3 scripts/run_benchmark.py
+      --config config/parameters.yaml
+      --scaling
+      --output /results
+
+  # -----------------------------------------------------------------------
+  # Ablation study (single GPU, controlled experiments)
+  # -----------------------------------------------------------------------
+  cuda-pressure-ablation:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: cuda-pressure-sim:latest
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - CUDA_VISIBLE_DEVICES=0
+    volumes:
+      - ../results:/results
+      - ../config:/app/config:ro
+    command: >
+      python3 scripts/run_benchmark.py
+      --config config/parameters.yaml
+      --ablation
+      --output /results
+
+  # -----------------------------------------------------------------------
+  # Energy measurement (with NVML)
+  # -----------------------------------------------------------------------
+  cuda-pressure-energy:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: cuda-pressure-sim:latest
+    runtime: nvidia
+    privileged: true               # Required for NVML power monitoring
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - CUDA_VISIBLE_DEVICES=0
+    volumes:
+      - ../results:/results
+      - ../config:/app/config:ro
+    command: >
+      python3 scripts/run_benchmark.py
+      --config config/base_case.yaml
+      --power-measurement
+      --output /results

@@ -1,0 +1,61 @@
+# Base Case Configuration (3 fractures, 300 time steps)
+# Corresponds to the representative small-scale simulation in Section 4.1
+
+# Reservoir geometry
+reservoir:
+  L_x: 4000.0          # Domain length in x (m)
+  L_y: 3000.0          # Domain length in y (m)
+  h: 30.0              # Formation thickness (m)
+  porosity: 0.07       # Matrix porosity
+  permeability_md: 0.008  # Matrix permeability (mD)
+  initial_pressure_mpa: 35.0
+  temperature_K: 350.0
+
+# Well configuration
+well:
+  n_wells: 1
+  well_x: 2000.0       # Wellbore center x (m)
+  well_y: 1500.0       # Wellbore center y (m)
+  wellbore_radius_m: 0.1
+  production_rate_sm3_d: 100000.0  # Standard m^3/day
+
+# Fracture configuration
+fractures:
+  n_fractures: 3       # Number of hydraulic fractures
+  n_stages: 1          # Number of fracture stages
+  spacing_m: 60.0      # Stage spacing (m)
+  half_length_m: 150.0 # Fracture half-length (m)
+  conductivity_md_m: 500.0  # Fracture conductivity (mD-m)
+  aperture_mm: 3.0
+  skin_factor: 0.0
+
+# Green's function parameters
+green_function:
+  N_x: 50              # Fourier modes in x-direction
+  N_y: 50              # Fourier modes in y-direction
+
+# Time discretization
+time:
+  t_D_min: 1.0e-3      # Minimum dimensionless time
+  t_D_max: 1.0e4       # Maximum dimensionless time
+  N_t: 300             # Number of time steps (log-spaced)
+
+# Stehfest inversion
+stehfest:
+  N: 8                 # Number of Stehfest coefficients
+
+# Solver
+solver:
+  use_gpu: true
+  double_precision: true
+  gpu_architecture: "sm_80"  # A100
+
+# CUDA kernel configuration
+cuda:
+  threads_per_block: 512    # 16 warps
+  shared_memory_kb: 48      # Configurable 32-48 KB
+  grid_stride_loop: true
+  use_read_only_cache: true
+  use_separable_kernel: true
+  use_shared_memory_tiling: true
+  use_warp_centric: true
