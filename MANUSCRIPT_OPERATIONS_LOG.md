@@ -2,8 +2,8 @@
 # Paper: GPU-Accelerated Semi-Analytical Pressure-Transient Modeling for Multi-Fractured Horizontal Wells in Shale Gas Reservoirs
 # Authors: Rongwang Yin, Shaowei Zhang
 # Target Journal: JPEPT (Journal of Petroleum Exploration and Production Technology)
-# Date: 2026-06-12 (all operations completed)
-# Status: READY FOR SUBMISSION
+# Date: 2026-06-13 (continued revisions — Day 2)
+# Status: REVISED — Manuscript_v1.docx ready; requires Word verification
 
 ---
 
@@ -146,12 +146,94 @@ All sections verified complete and correctly ordered.
 ## 7. KEY PATHS
 
 ```
-C:\paper6\A Massively Parallel CUDA Framework.docx  ← MAIN MANUSCRIPT
-C:\paper6\A Massively Parallel CUDA Framework_backup.docx
+C:\paper6\Manuscript_v1.docx                        ← CURRENT WORKING FILE (2026-06-13)
+C:\paper6\A Massively Parallel CUDA Framework.docx  ← Original manuscript
+C:\paper6\A Massively Parallel CUDA Framework_final3.docx ← Best backup before Day 2
 C:\paper6\code_repository\                          ← GitHub local
-C:\paper6\figures\enhanced\                         ← 300 DPI source
+C:\paper6\figures\regenerated\                      ← Regenerated figures (Fig 12, 13)
 C:\paper6\MANUSCRIPT_OPERATIONS_LOG.md              ← THIS FILE
 ```
+
+---
+
+## 16. DAY 2 OPERATIONS (2026-06-13)
+
+### 16.1 Current Working File
+**`C:\paper6\Manuscript_v1.docx`** — All modifications applied to this file.
+
+### 16.2 Abstract Revisions
+- Speedup distinction: "measured speedups of 50× to 122×, with projected speedups up to 341×"
+- "real-time operational constraints" → "interactive or near-real-time analysis constraints"
+- Added "discretized fracture segments" consistency
+
+### 16.3 Field Data Claims — Honesty Audit
+- Removed all "field data validation" / "validated against field production data" claims
+- Unified to: "representative of... wells in western China" / "field-scale reservoir and completion parameters"
+- P44: "ideal bottomhole pressure" → "initial reservoir pressure"
+- P169: "field case" → "representative shale gas well case"; "measured pressure/production data" → "field-scale reservoir and completion parameters"
+- Consistent with P176: "No external proprietary or confidential field data were used"
+
+### 16.4 Equation System Fixes
+- **17 `[symbol]` placeholders** in inline OMML → replaced with correct math symbols (E, ν, φ, L_x, L_y, p_wf, p_i, r_w, h, q_j, C, S, v, f(s), ω, λ, Δp̃_Dj, G_ij)
+- **11 OMML elements** lacked `<m:t>` wrapper → added; now all 29 inline OMML valid
+- **6 symbols** upgraded from plain text to proper OMML subscript: L_x, L_y, p_wf, p_wf,ideal, q_j, Δp̃_Dj
+- **21 text-form subscripts** in body text (N_t, N_x, N_y, k_m, etc.) → converted to OMML format
+- WHERE paragraphs reordered to match equations:
+  - f(s) → after Eq.15
+  - ω → after Eq.17
+  - λ → after Eq.19
+  - G_ij → after Eq.26 (content fixed: "Equation 26" → "Equations 24-26")
+- P44 rebuilt for Eq.4: defines p_wf, p_i, r_w, S, μ, k (was p_wf, p_wf,ideal, h, q_j, C, S)
+- Added μ, k definitions to P44
+
+### 16.5 Equation Logic
+- Eq.26 (ε_n) moved to between Eq.23 and Eq.24 — defined before used
+- Eq. renumbered: 26→24, 24→25, 25→26 (sequential 23-26)
+- Body text: added Eq.24 reference ("The Fourier mode is defined by Eq. (24)")
+- Matrix equation present: Eq.22 A·q̃ = b (Section 2, end)
+- G_ij referenced correctly: "defined by Equations 24-26"
+
+### 16.6 Formatting
+- **Equation alignment**: All 26 equations → `center`; removed firstLine indent
+- **Body text alignment**: 136 paragraphs reverted from center → `both` (justified)
+- **Font sizes**: Abstract 14pt→10pt; figure/table captions 10.5pt→10pt; w:szCs unified
+- **Font**: Times New Roman throughout (Cambria Math for equations)
+
+### 16.7 Figure 12 Caption
+- Removed LaTeX `$$` delimiters and `\geq` → `≥`
+- Fixed `&gt;` → `>`
+- Caption now reads: "Figure 12. GPU workload scaling performance (N_seg = 1000, N_t varied)..."
+
+### 16.8 Figure 13 Image Recovery
+- Image was missing from all backups (lost during Day 1 operations)
+- Inserted via python-docx API using `C:\paper6\figures\regenerated\figure_13.png`
+- Image placed in own paragraph (P161) before caption (P162)
+
+### 16.9 Cross-Reference Audit
+- Figures 1-13: all captions present, all referenced ✅
+- Tables 1-3: all captions present, all referenced ✅
+- Equations 1-26: all referenced (including Eq.24) ✅
+- Figure 8: no duplicate (P135 is body text, not caption)
+
+### 16.10 Physical-Mathematical Logic
+- Derivation chain: Physical model → PDE → BC → pseudo-pressure → dimensionless → Laplace → Bessel → dual-porosity → superposition → linear system → Green's function
+- No logical gaps or contradictions
+- Minor note: P37 "Fick's second law" actually references pressure diffusion (Darcy-type), mathematically analogous
+
+### 16.11 Language & Consistency
+- No broken sentences; all WHERE paragraphs end with period
+- Number-unit spacing consistent (e.g., "0.2-5 s", "9.6 s", "80 GB")
+- All banned terms clean (N_f, field data validation, extrapolated, real-time operational)
+
+### 16.12 Key Scripts Used
+- `_update_eqs.py` — OMML equation reconstruction reference
+- `_check_sym.py` — symbol definition verification
+- Various inline Python scripts for XML manipulation
+
+### 16.13 Known Remaining Issues
+- P35: "φ denote" should be "φ denotes" or split into "k and φ denote"
+- Eq numbering non-sequential gap in final3 base (23→26→24→25) — fixed in Manuscript_v1
+- Eq.24 body reference added but may need Word verification
 
 ---
 
